@@ -1,0 +1,150 @@
+basePath: /v1
+definitions:
+  models.CreateOrderRequest:
+    description: Request about creating Order
+    properties:
+      age:
+        description: age to make sure you are young
+        type: integer
+      countryCode:
+        description: 'country code like: tr, us'
+        type: string
+      shipmentNumber:
+        description: shipment no of Order
+        type: string
+    required:
+    - age
+    - countryCode
+    - shipmentNumber
+    type: object
+  models.ErrResponse:
+    properties:
+      message:
+        type: string
+    type: object
+  models.User:
+    properties:
+      email:
+        type: string
+      full_name:
+        type: string
+      is_active:
+        type: boolean
+      username:
+        type: string
+    type: object
+  models.UserResponse:
+    properties:
+      data:
+        items:
+          $ref: '#/definitions/models.User'
+        type: array
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: Demo Backend For MCP
+  title: Demo Backend
+  version: "1"
+paths:
+  /orders:
+    post:
+      consumes:
+      - application/json
+      description: Creating Order with given request
+      parameters:
+      - description: code of Order
+        in: header
+        name: x-correlationid
+        required: true
+        type: string
+      - description: Request of Creating Order Object
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateOrderRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      summary: Creating Order
+      tags:
+      - Orders
+  /orders/{orderCode}:
+    get:
+      consumes:
+      - application/json
+      description: Getting Order by Code in detail
+      parameters:
+      - description: code of Order
+        in: header
+        name: x-correlationid
+        required: true
+        type: string
+      - description: code of Order
+        in: path
+        name: orderCode
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: Getting Order by Code
+      tags:
+      - Orders
+  /users:
+    get:
+      description: return list of all users from the database
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.UserResponse'
+      summary: return list of all
+      tags:
+      - Users
+    post:
+      consumes:
+      - application/json
+      description: create new user
+      parameters:
+      - description: User
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/models.User'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.User'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/models.ErrResponse'
+      security:
+      - bearerToken: []
+      summary: create new user
+      tags:
+      - Users
+securityDefinitions:
+  bearerToken:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
