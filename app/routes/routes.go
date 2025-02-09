@@ -1,9 +1,9 @@
 package routes
 
 import (
-	controllers "backend-go/app/contollers"
-	"backend-go/app/middleware"
-	_ "backend-go/docs"
+	controllers "github.com/danishjsheikh/backend-go/app/contollers"
+	"github.com/danishjsheikh/backend-go/app/middleware"
+	_ "github.com/danishjsheikh/backend-go/docs"
 
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"

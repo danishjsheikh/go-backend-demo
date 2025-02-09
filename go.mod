@@ -1,4 +1,4 @@
-module backend-go
+module github.com/danishjsheikh/backend-go
 
 go 1.23.6
 

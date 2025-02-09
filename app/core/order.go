@@ -1,10 +1,11 @@
 package core
 
 import (
-	"backend-go/app/common"
-	"backend-go/app/models"
 	"fmt"
 	"strings"
+
+	"github.com/danishjsheikh/backend-go/app/common"
+	"github.com/danishjsheikh/backend-go/app/models"
 )
 
 func GetOrderByCode(correlationId string, orderCode string) string {

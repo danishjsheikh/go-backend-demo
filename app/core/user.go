@@ -1,8 +1,9 @@
 package core
 
 import (
-	"backend-go/app/models"
 	"database/sql"
+
+	"github.com/danishjsheikh/backend-go/app/models"
 )
 
 var users = []models.User{
