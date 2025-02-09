@@ -3,8 +3,8 @@ package main
 import (
 	"log"
 
-	"github.com/danishjsheikh/backend-go/app/common"
-	"github.com/danishjsheikh/backend-go/app/routes"
+	"github.com/danishjsheikh/go-backend-demo/app/common"
+	"github.com/danishjsheikh/go-backend-demo/app/routes"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"

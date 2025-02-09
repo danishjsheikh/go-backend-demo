@@ -3,7 +3,7 @@ package core
 import (
 	"database/sql"
 
-	"github.com/danishjsheikh/backend-go/app/models"
+	"github.com/danishjsheikh/go-backend-demo/app/models"
 )
 
 var users = []models.User{

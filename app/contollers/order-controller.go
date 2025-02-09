@@ -1,11 +1,12 @@
 package controllers
 
 import (
-	"backend-go/app/core"
-	"backend-go/app/models"
 	"fmt"
 	"log"
 	"net/http"
+
+	"github.com/danishjsheikh/go-backend-demo/app/core"
+	"github.com/danishjsheikh/go-backend-demo/app/models"
 
 	"github.com/gin-gonic/gin"
 )

@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/danishjsheikh/backend-go/app/common"
-	"github.com/danishjsheikh/backend-go/app/models"
+	"github.com/danishjsheikh/go-backend-demo/app/common"
+	"github.com/danishjsheikh/go-backend-demo/app/models"
 )
 
 func GetOrderByCode(correlationId string, orderCode string) string {

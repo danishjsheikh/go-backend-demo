@@ -4,8 +4,8 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/danishjsheikh/backend-go/app/core"
-	"github.com/danishjsheikh/backend-go/app/models"
+	"github.com/danishjsheikh/go-backend-demo/app/core"
+	"github.com/danishjsheikh/go-backend-demo/app/models"
 
 	"github.com/gin-gonic/gin"
 )
