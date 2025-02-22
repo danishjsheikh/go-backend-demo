@@ -101,7 +101,7 @@
                 "tags": [
                     "Users"
                 ],
-                "summary": "return list of all",
+                "summary": "return list of all users",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -181,6 +181,7 @@
             }
         },
         "models.ErrResponse": {
+            "description": "User Error Response",
             "type": "object",
             "properties": {
                 "message": {
@@ -189,6 +190,7 @@
             }
         },
         "models.User": {
+            "description": "User Schema",
             "type": "object",
             "properties": {
                 "email": {
@@ -206,6 +208,7 @@
             }
         },
         "models.UserResponse": {
+            "description": "User Valid Response",
             "type": "object",
             "properties": {
                 "data": {

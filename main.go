@@ -35,7 +35,7 @@ func main() {
 
 	routes.Init(app)
 
-	err = app.Run()
+	err = app.Run("0.0.0.0:8080")
 	if err != nil {
 		log.Fatal(err)
 	}

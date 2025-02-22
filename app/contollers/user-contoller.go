@@ -13,7 +13,7 @@ import (
 type UserController struct{}
 
 // GetUsers return list of all users from the database
-// @Summary return list of all
+// @Summary return list of all users
 // @Description return list of all users from the database
 // @Tags Users
 // @Success 200 {object} models.UserResponse

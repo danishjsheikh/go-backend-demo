@@ -18,11 +18,13 @@ definitions:
     - shipmentNumber
     type: object
   models.ErrResponse:
+    description: User Error Response
     properties:
       message:
         type: string
     type: object
   models.User:
+    description: User Schema
     properties:
       email:
         type: string
@@ -34,6 +36,7 @@ definitions:
         type: string
     type: object
   models.UserResponse:
+    description: User Valid Response
     properties:
       data:
         items:
@@ -112,7 +115,7 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/models.UserResponse'
-      summary: return list of all
+      summary: return list of all users
       tags:
       - Users
     post:

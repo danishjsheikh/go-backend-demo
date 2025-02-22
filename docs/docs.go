@@ -107,7 +107,7 @@ const docTemplate = `{
                 "tags": [
                     "Users"
                 ],
-                "summary": "return list of all",
+                "summary": "return list of all users",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -187,6 +187,7 @@ const docTemplate = `{
             }
         },
         "models.ErrResponse": {
+            "description": "User Error Response",
             "type": "object",
             "properties": {
                 "message": {
@@ -195,6 +196,7 @@ const docTemplate = `{
             }
         },
         "models.User": {
+            "description": "User Schema",
             "type": "object",
             "properties": {
                 "email": {
@@ -212,6 +214,7 @@ const docTemplate = `{
             }
         },
         "models.UserResponse": {
+            "description": "User Valid Response",
             "type": "object",
             "properties": {
                 "data": {
