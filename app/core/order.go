@@ -1,29 +1,71 @@
 package core
 
 import (
-	"fmt"
-	"strings"
+	"errors"
+	"sync"
 
-	"github.com/danishjsheikh/go-backend-demo/app/common"
 	"github.com/danishjsheikh/go-backend-demo/app/models"
 )
 
-func GetOrderByCode(correlationId string, orderCode string) string {
-	fmt.Printf("Your correlationId is %v", correlationId)
-	return fmt.Sprintf("This is your order Code: %v", orderCode)
+var (
+	orders = make(map[string]models.Order)
+	mutex  sync.Mutex
+)
+
+// GetOrder retrieves an order by its order code
+func GetOrder(orderCode string) (*models.Order, error) {
+	mutex.Lock()
+	defer mutex.Unlock()
+
+	order, exists := orders[orderCode]
+	if !exists {
+		return nil, errors.New("order not found")
+	}
+	return &order, nil
 }
 
-func CreateOrder(request models.CreateOrderRequest) (string, error) {
+// CreateOrder creates a new order and stores it
+func CreateOrder(request models.CreateOrderRequest) (*models.Order, error) {
+	mutex.Lock()
+	defer mutex.Unlock()
 
-	if errs := common.CustomValidatorGlobal.Validate(common.CustomValidatorGlobal.Validator, request); len(errs) > 0 && errs[0].HasError {
-		errorMessages := make([]string, 0)
+	order := models.Order{
+		ShipmentNumber: request.ShipmentNumber,
+		CountryCode:    request.CountryCode,
+		Age:            request.Age,
+	}
+	orders[request.ShipmentNumber] = order
+	return &order, nil
+}
 
-		for _, err2 := range errs {
-			errorMessages = append(errorMessages, fmt.Sprintf("%s field has failed. Validation is: %s", err2.Field, err2.Tag))
-		}
+// UpdateOrder updates an existing order
+func UpdateOrder(orderCode string, request models.CreateOrderRequest) (*models.Order, error) {
+	mutex.Lock()
+	defer mutex.Unlock()
 
-		return "", fmt.Errorf("%v", strings.Join(errorMessages, "\n"))
+	_, exists := orders[orderCode]
+	if !exists {
+		return nil, errors.New("order not found")
 	}
 
-	return "Order created successfully!", nil
+	updatedOrder := models.Order{
+		ShipmentNumber: request.ShipmentNumber,
+		CountryCode:    request.CountryCode,
+		Age:            request.Age,
+	}
+	orders[orderCode] = updatedOrder
+	return &updatedOrder, nil
+}
+
+// DeleteOrder removes an order
+func DeleteOrder(orderCode string) error {
+	mutex.Lock()
+	defer mutex.Unlock()
+
+	_, exists := orders[orderCode]
+	if !exists {
+		return errors.New("order not found")
+	}
+	delete(orders, orderCode)
+	return nil
 }

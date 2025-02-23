@@ -20,7 +20,17 @@ definitions:
   models.ErrResponse:
     description: User Error Response
     properties:
-      message:
+      error:
+        type: string
+    type: object
+  models.Order:
+    description: Order Schema
+    properties:
+      age:
+        type: integer
+      countryCode:
+        type: string
+      shipmentNumber:
         type: string
     type: object
   models.User:
@@ -54,14 +64,14 @@ paths:
     post:
       consumes:
       - application/json
-      description: Creating Order with given request
+      description: Creates a new order
       parameters:
-      - description: code of Order
+      - description: Correlation ID
         in: header
         name: x-correlationid
         required: true
         type: string
-      - description: Request of Creating Order Object
+      - description: Order Request
         in: body
         name: request
         required: true
@@ -70,29 +80,29 @@ paths:
       produces:
       - application/json
       responses:
-        "200":
-          description: OK
+        "201":
+          description: Created
           schema:
-            type: string
+            $ref: '#/definitions/models.Order'
         "400":
           description: Bad Request
           schema:
-            type: string
-      summary: Creating Order
+            $ref: '#/definitions/models.ErrResponse'
+      summary: Create Order
       tags:
       - Orders
   /orders/{orderCode}:
     get:
       consumes:
       - application/json
-      description: Getting Order by Code in detail
+      description: Retrieves an order by order code
       parameters:
-      - description: code of Order
+      - description: Correlation ID
         in: header
         name: x-correlationid
         required: true
         type: string
-      - description: code of Order
+      - description: Order Code
         in: path
         name: orderCode
         required: true
@@ -103,8 +113,12 @@ paths:
         "200":
           description: OK
           schema:
-            type: string
-      summary: Getting Order by Code
+            $ref: '#/definitions/models.Order'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ErrResponse'
+      summary: Get Order by Code
       tags:
       - Orders
   /users:
@@ -115,6 +129,10 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/models.UserResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/models.ErrResponse'
       summary: return list of all users
       tags:
       - Users
@@ -143,6 +161,57 @@ paths:
       security:
       - bearerToken: []
       summary: create new user
+      tags:
+      - Users
+  /users/{username}:
+    delete:
+      description: Deletes a user
+      parameters:
+      - description: Username
+        in: path
+        name: username
+        required: true
+        type: string
+      responses:
+        "204":
+          description: No Content
+          schema:
+            type: string
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ErrResponse'
+      summary: Delete User
+      tags:
+      - Users
+    put:
+      consumes:
+      - application/json
+      description: Updates an existing user
+      parameters:
+      - description: Username
+        in: path
+        name: username
+        required: true
+        type: string
+      - description: Updated User
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/models.ErrResponse'
+      summary: Update User
       tags:
       - Users
 securityDefinitions:

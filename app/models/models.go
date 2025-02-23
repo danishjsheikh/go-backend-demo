@@ -1,18 +1,6 @@
 package models
 
-// UserResponse
-// @Description User Valid Response
-type UserResponse struct {
-	Data []User `json:"data"`
-}
-
-// ErrResponse
-// @Description User Error Response
-type ErrResponse struct {
-	Message string
-}
-
-// User
+// User represents a user schema
 // @Description User Schema
 type User struct {
 	Username string `json:"username"`
@@ -21,7 +9,19 @@ type User struct {
 	IsActive bool   `json:"is_active"`
 }
 
-// CreateOrderRequest
+// UserResponse represents a valid response for user operations
+// @Description User Valid Response
+type UserResponse struct {
+	Data []User `json:"data"`
+}
+
+// ErrResponse represents an error response
+// @Description User Error Response
+type ErrResponse struct {
+	Message string `json:"error"`
+}
+
+// CreateOrderRequest represents a request for creating an order
 // @Description Request about creating Order
 type CreateOrderRequest struct {
 	// shipment no of Order
@@ -30,4 +30,12 @@ type CreateOrderRequest struct {
 	CountryCode string `json:"countryCode" validate:"required,len=2"`
 	// age to make sure you are young
 	Age int `json:"age" validate:"required,oldAge"`
+}
+
+// Order represents an order schema
+// @Description Order Schema
+type Order struct {
+	ShipmentNumber string `json:"shipmentNumber"`
+	CountryCode    string `json:"countryCode"`
+	Age            int    `json:"age"`
 }

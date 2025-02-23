@@ -17,7 +17,7 @@ const docTemplate = `{
     "paths": {
         "/orders": {
             "post": {
-                "description": "Creating Order with given request",
+                "description": "Creates a new order",
                 "consumes": [
                     "application/json"
                 ],
@@ -27,17 +27,17 @@ const docTemplate = `{
                 "tags": [
                     "Orders"
                 ],
-                "summary": "Creating Order",
+                "summary": "Create Order",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "code of Order",
+                        "description": "Correlation ID",
                         "name": "x-correlationid",
                         "in": "header",
                         "required": true
                     },
                     {
-                        "description": "Request of Creating Order Object",
+                        "description": "Order Request",
                         "name": "request",
                         "in": "body",
                         "required": true,
@@ -47,16 +47,16 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "OK",
+                    "201": {
+                        "description": "Created",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/models.Order"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/models.ErrResponse"
                         }
                     }
                 }
@@ -64,7 +64,7 @@ const docTemplate = `{
         },
         "/orders/{orderCode}": {
             "get": {
-                "description": "Getting Order by Code in detail",
+                "description": "Retrieves an order by order code",
                 "consumes": [
                     "application/json"
                 ],
@@ -74,18 +74,18 @@ const docTemplate = `{
                 "tags": [
                     "Orders"
                 ],
-                "summary": "Getting Order by Code",
+                "summary": "Get Order by Code",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "code of Order",
+                        "description": "Correlation ID",
                         "name": "x-correlationid",
                         "in": "header",
                         "required": true
                     },
                     {
                         "type": "string",
-                        "description": "code of Order",
+                        "description": "Order Code",
                         "name": "orderCode",
                         "in": "path",
                         "required": true
@@ -95,7 +95,13 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/models.Order"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrResponse"
                         }
                     }
                 }
@@ -113,6 +119,12 @@ const docTemplate = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/models.UserResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrResponse"
                         }
                     }
                 }
@@ -160,6 +172,83 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/users/{username}": {
+            "put": {
+                "description": "Updates an existing user",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Update User",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Username",
+                        "name": "username",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Updated User",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.User"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/models.User"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrResponse"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Deletes a user",
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Delete User",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Username",
+                        "name": "username",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/models.ErrResponse"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -190,7 +279,22 @@ const docTemplate = `{
             "description": "User Error Response",
             "type": "object",
             "properties": {
-                "message": {
+                "error": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.Order": {
+            "description": "Order Schema",
+            "type": "object",
+            "properties": {
+                "age": {
+                    "type": "integer"
+                },
+                "countryCode": {
+                    "type": "string"
+                },
+                "shipmentNumber": {
                     "type": "string"
                 }
             }
