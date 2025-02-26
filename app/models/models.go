@@ -24,6 +24,7 @@ type ErrResponse struct {
 // CreateOrderRequest represents a request for creating an order
 // @Description Request about creating Order
 type CreateOrderRequest struct {
+	OrderID string `json:"order_id" validate:"required"`
 	// shipment no of Order
 	ShipmentNumber string `json:"shipmentNumber" validate:"required"`
 	// country code like: tr, us
@@ -35,6 +36,7 @@ type CreateOrderRequest struct {
 // Order represents an order schema
 // @Description Order Schema
 type Order struct {
+	OrderID        string `json:"order_id"`
 	ShipmentNumber string `json:"shipmentNumber"`
 	CountryCode    string `json:"countryCode"`
 	Age            int    `json:"age"`

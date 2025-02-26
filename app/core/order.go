@@ -33,6 +33,7 @@ func CreateOrder(request models.CreateOrderRequest) (*models.Order, error) {
 		ShipmentNumber: request.ShipmentNumber,
 		CountryCode:    request.CountryCode,
 		Age:            request.Age,
+		OrderID:        request.OrderID,
 	}
 	orders[request.ShipmentNumber] = order
 	return &order, nil

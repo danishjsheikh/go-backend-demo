@@ -55,3 +55,46 @@ func (oc *OrderController) CreateOrder(c *gin.Context) {
 	}
 	c.JSON(http.StatusCreated, order)
 }
+
+// UpdateOrder updates an existing order
+// @Summary Update Order
+// @Description Updates an existing order
+// @Tags Orders
+// @Accept json
+// @Produce json
+// @Param x-correlationid header string true "Correlation ID"
+// @Param orderCode path string true "Order Code"
+// @Param request body models.CreateOrderRequest true "Updated Order"
+// @Success 200 {object} models.Order
+// @Failure 404 {string} string "Order not found"
+// @Router /orders/{orderCode} [put]
+func (oc *OrderController) UpdateOrder(c *gin.Context) {
+	var request models.CreateOrderRequest
+	if err := c.BindJSON(&request); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	order, err := core.UpdateOrder(c.Param("orderCode"), request)
+	if err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "Order not found"})
+		return
+	}
+	c.JSON(http.StatusOK, order)
+}
+
+// DeleteOrder deletes an order
+// @Summary Delete Order
+// @Description Deletes an order
+// @Tags Orders
+// @Param orderCode path string true "Order Code"
+// @Success 204 {string} string "No Content"
+// @Failure 404 {string} string "Order not found"
+// @Router /orders/{orderCode} [delete]
+func (oc *OrderController) DeleteOrder(c *gin.Context) {
+	err := core.DeleteOrder(c.Param("orderCode"))
+	if err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "Order not found"})
+		return
+	}
+	c.JSON(http.StatusNoContent, nil)
+}

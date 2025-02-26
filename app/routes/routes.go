@@ -30,8 +30,8 @@ func Init(app *gin.Engine) {
 			orderController := new(controllers.OrderController)
 			appOrder.GET("/:orderCode", orderController.GetOrderByCode)
 			appOrder.POST("/", orderController.CreateOrder)
-			// appOrder.PUT("/:orderCode", orderController.UpdateOrder)
-			// appOrder.DELETE("/:orderCode", orderController.DeleteOrder)
+			appOrder.PUT("/:orderCode", orderController.UpdateOrder)
+			appOrder.DELETE("/:orderCode", orderController.DeleteOrder)
 		}
 	}
 }
